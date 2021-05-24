@@ -12,12 +12,18 @@ void Inputfield()
     {
         Console.Write("Goodbye!");
     }
+    else if (choice == 5 || choice == 6)
+    {
+        int firstnum = singlenumber();
+        int secondnum = firstnum;
+        Caculator(choice, firstnum, secondnum);
+    }
     else
     {
-        int firstnum = numberone();
-        int secondnum = numbertwo();
+        int[] choices = twonumbers();
+        
 
-        Caculator(choice, firstnum, secondnum);
+        Caculator(choice, choices[0], choices[1]);
 
     }
 }
@@ -33,32 +39,34 @@ Welcome to Calculatron 3000!
 2) Subtract two numbers
 3) Multiply two numbers
 4) Divide two numbers
+5) Square of Number
+6) Square Root of Number
 0) Exit
     ");
         string pick = Console.ReadLine();
 
-        if (int.TryParse(pick, out int firstchoice) && firstchoice >= 0 && firstchoice < 5)
+        if (int.TryParse(pick, out int firstchoice) && firstchoice >= 0 && firstchoice < 7)
         {
             return firstchoice;
         }
     }
 }
 
-int numberone()
+int[] twonumbers()
 {
     while (true)
     {
-        Console.Write($"Please enter the first number: ");
-        string first = Console.ReadLine();
+        Console.Write($"Please enter two numbers with a space in between:  ");
+        string entry = Console.ReadLine();
+        string[] numbers = entry.Split(' ');
+        
+        return Array.ConvertAll(numbers, int.Parse);
+        
 
-        if (int.TryParse(first, out int firstchoice))
-        {
-            return firstchoice;
-        }
     }
 }
 
-int numbertwo()
+int singlenumber()
 {
     while (true)
     {
@@ -90,22 +98,38 @@ void Caculator(int selection, int firstnum, int secondnum)
         Inputfield();
     }
 
-    else if (selection == 2)
+    else if (selection == 3)
     {
         int result = firstnum * secondnum;
         Console.WriteLine($"The result of multiplying {firstnum} and {secondnum} is {result}.");
         System.Threading.Thread.Sleep(3000);
         Inputfield();
     }
+    else if (selection == 5)
+    {
+     double result = Math.Sqrt(firstnum);
+        Console.WriteLine($"The result of squaring {firstnum} is {result}.");
+        System.Threading.Thread.Sleep(3000);
+        Inputfield();   
+    }
+     else if (selection == 6)
+    {
+     int result = firstnum * secondnum;
+        Console.WriteLine($"The square root of {firstnum} is {result}.");
+        System.Threading.Thread.Sleep(3000);
+        Inputfield();   
+    }
     else
     {
+        
         try
         {
             int test = firstnum / secondnum;
         }
-        catch (System.FormatException)
+        catch (System.DivideByZeroException)
         {
             Console.Write("Error dividing by 0");
+            System.Threading.Thread.Sleep(3000);
             Inputfield();
         }
         int result = firstnum / secondnum;
